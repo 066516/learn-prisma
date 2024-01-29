@@ -12,7 +12,7 @@ router.post("/login", userController.loginUser);
 router.get("/users", userController.getAllUsers);
 
 // Get User by ID
-router.get("/users/:id",protect, userController.getUserById);
+router.get("/user",protect, userController.getUserById);
 
 // Delete User by ID
 router.delete("/users/:id", userController.deleteUserById);

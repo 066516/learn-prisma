@@ -11,7 +11,7 @@ cron.schedule("*/2 * * * *", async () => {
 
     // Find and update stories where the created timestamp is older than 24 hours
     const updatedStories = await prisma.story.updateMany({
-      where: {
+      where: { 
         createdAt: {
           lt: twentyFourHoursAgo,
         },

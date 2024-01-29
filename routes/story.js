@@ -5,7 +5,9 @@ const storyController = require("../controllers/story");
 
 // Create a new story
 module.exports = function (io) {
-    router.post('/stories', (req, res) => storyController.createStory(req, res, io));
+  router.post("/stories", (req, res) =>
+    storyController.createStory(req, res, io)
+  );
 
   // Get all stories
   router.get("/stories", storyController.getAllStories);

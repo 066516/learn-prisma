@@ -35,7 +35,8 @@ model User {
   password String   @default("0000000")
   posts    Post[]
   profile  Profile?
-  Story    Story[]
+  lastPostDate DateTime @default(now())
+  Story        Story[]
 }
 
 model Story {

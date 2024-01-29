@@ -3,22 +3,43 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 // Create a new story
 
-const createStory = async (req, res,io) => {
+const createStory = async (req, res, io) => {
+  const { userId, content } = req.body;
+
   try {
-    const { userId, content } = req.body;
-    const story = await prisma.story.create({
-      data: {
-        userId,
-        content,
-      },
+    const result = await prisma.$transaction(async (tx) => {
+      const newStory = await tx.story.create({
+        data: {
+          content: content,
+          userId: userId,
+        },
+      });
+
+      const userUpdate = await tx.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          lastPostDate: new Date(),
+        },
+      });
+
+      return { newStory, userUpdate }; // Return both newStory and userUpdate
     });
-    io.emit("story_created", story);
-    res.status(201).json(story);
+
+    // Emit the new story after the transaction has successfully committed
+    io.emit("story_created", result.newStory);
+
+    // Send a response with the new story and user update info
+    res.status(201).json(result);
   } catch (error) {
-    console.error("Error creating story:", error);
-    res.status(500).json({ error: "Could not create story" });
+    console.error("Transaction failed:", error);
+    
+    // Send a more specific error response based on the actual error
+    res.status(500).json({ message: "An error occurred while creating the story", error: error.message });
   }
 };
+
 
 // Get all stories
 const getAllStories = async (req, res) => {
