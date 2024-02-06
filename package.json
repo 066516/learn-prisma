@@ -21,13 +21,16 @@
   "dependencies": {
     "@prisma/client": "^5.8.1",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "curl": "^0.1.4",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "node-cron": "^3.0.3",
     "pg": "^8.11.3",
     "socket.io": "^4.7.4",
-    "socket.io-client": "^4.7.4"
+    "socket.io-client": "^4.7.4",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.3",

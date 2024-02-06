@@ -27,19 +27,28 @@ const createStory = async (req, res, io) => {
       return { newStory, userUpdate }; // Return both newStory and userUpdate
     });
 
-    // Emit the new story after the transaction has successfully committed
-    io.emit("story_created", result.newStory);
+    // Check if the `io` object is available before emitting the event
+    if (io) {
+      // Emit the new story after the transaction has successfully committed
+      io.emit("story_created", result.newStory);
+    } else {
+      console.log("invalide io");
+    }
 
     // Send a response with the new story and user update info
     res.status(201).json(result);
   } catch (error) {
     console.error("Transaction failed:", error);
-    
+
     // Send a more specific error response based on the actual error
-    res.status(500).json({ message: "An error occurred while creating the story", error: error.message });
+    res
+      .status(500)
+      .json({
+        message: "An error occurred while creating the story",
+        error: error.message,
+      });
   }
 };
-
 
 // Get all stories
 const getAllStories = async (req, res) => {
