@@ -25,7 +25,7 @@ socket.on("story_created", function (data) {
   console.log("Received a hello message:", data.content);
 });
 
-socket.on('test1', function (data) {
+socket.on("test1", function (data) {
   console.log("Received a hello message:", data);
 });
 
